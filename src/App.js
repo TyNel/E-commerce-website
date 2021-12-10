@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import HomePage from "./pages/homepage/homepage.component";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
@@ -31,7 +31,6 @@ class App extends React.Component {
       } else {
         setCurrentUser(userAuth);
       }
-      console.log(this.state);
     });
   }
 
@@ -43,22 +42,22 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/shop/*" element={<ShopPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/shop" component={ShopPage} />
+          <Route exact path="/checkout" component={CheckoutPage} />
           <Route
             exact
             path="/signin"
-            element={
+            component={
               this.props.currentUser ? (
-                <Navigate to="/" replace />
+                <Redirect to="/" />
               ) : (
                 <SignInAndSignUpPage />
               )
             }
           />
-        </Routes>
+        </Switch>
       </div>
     );
   }
